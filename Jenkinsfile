@@ -16,13 +16,13 @@ pipeline {
     }
     
     stage('SonarQube analysis') {
-     def scannerHome = tool 'sonarqube';
-     withSonarQubeEnv('node-app') {
-      sh "${scannerHome}/bin/sonar-scanner \
-      -D sonar.login=admin \
-      -D sonar.password=sonar \
-      -D sonar.projectKey=node-app \
-      -D sonar.host.url=http://10.108.157.136/"
+      def scannerHome = tool 'sonarqube';
+      withSonarQubeEnv('node-app') {
+       sh "${scannerHome}/bin/sonar-scanner \
+       -D sonar.login=admin \
+       -D sonar.password=sonar \
+       -D sonar.projectKey=node-app \
+       -D sonar.host.url=http://10.108.157.136/"
       }
     }
   
