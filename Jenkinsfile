@@ -16,20 +16,24 @@ pipeline {
     }
     
     stage('SonarQube analysis') {
-      def scannerHome = tool 'sonarqube';
-      withSonarQubeEnv('node-app') {
-       sh "${scannerHome}/bin/sonar-scanner \
-       -D sonar.login=admin \
-       -D sonar.password=sonar \
-       -D sonar.projectKey=node-app \
-       -D sonar.host.url=http://10.108.157.136/"
-      }
+      steps {
+        def scannerHome = tool 'sonarqube';
+        withSonarQubeEnv('node-app') {
+          sh "${scannerHome}/bin/sonar-scanner \
+          -D sonar.login=admin \
+          -D sonar.password=sonar \
+          -D sonar.projectKey=node-app \
+          -D sonar.host.url=http://10.108.157.136/"
+        }  
+      }  
     }
   
     stage('Quality Gates'){
-     timeout(time: 2, unit: 'MINUTES') {
-      waitForQualityGate abortPipeline: true
-     }
+      steps {
+        timeout(time: 2, unit: 'MINUTES') {
+          waitForQualityGate abortPipeline: true
+        }
+      }   
     }
 
     stage('Build image') {
